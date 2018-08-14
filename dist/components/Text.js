@@ -28,6 +28,12 @@ var _mediaConf2 = _interopRequireDefault(_mediaConf);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var Title = _styledComponents2.default.p(_templateObject, function (props) {
@@ -53,4 +59,24 @@ function Text(_ref) {
 
 Text.PropTypes = propTypes;
 
-exports.default = Text;
+var _default = Text;
+exports.default = _default;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(Title, 'Title', 'src/components/Text.js');
+  reactHotLoader.register(propTypes, 'propTypes', 'src/components/Text.js');
+  reactHotLoader.register(Text, 'Text', 'src/components/Text.js');
+  reactHotLoader.register(_default, 'default', 'src/components/Text.js');
+  leaveModule(module);
+})();
+
+;

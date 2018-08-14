@@ -15,6 +15,8 @@ var compiler 	   = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
 
+app.use(express.static('public'))
+
 app.get("*", function(req, res, next) {
   res.sendFile(__dirname + '/index.html')
 })

@@ -1,7 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./index.css";
 import LoadingScreen from '../src'
+import HoursReport from './HoursReport';
 
 class Demo extends React.Component {
   constructor (props) {
@@ -29,18 +32,41 @@ class Demo extends React.Component {
         spinnerColor='#9ee5f8'
         textColor='#676767'
         logoSrc='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/250px-React-icon.svg.png'
-        text='Here an introduction sentence (Optional)'
+        text='מערכת ניהול גנים - יוצרה ע&quot;י דיויזיית הפיתוח של רזטק טכנולוגיות'
       >
-        <div style={{ textAlign: 'center' }}>
-          <h1>react-screen-loading</h1>
-          <p>Example of usage loading-screen, based on React</p>
-          <img src='https://cdn-images-1.medium.com/max/1050/1*i3hzpSEiEEMTuWIYviYweQ.png' style={{ maxWidth: '100%' }} />
-          <h2>Github repository: <a href='https://github.com/mslavan/loading-screen' target='_blank'>https://github.com/mslavan/react-loading-screen</a></h2>
-          <h2>Find me in linkedIn: <a href='https://www.linkedin.com/in/slava-mikhailenko-71295a144' target='_blank'>https://www.linkedin.com/in/slava-mikhailenko-71295a144</a></h2>
-        </div>
+        <div id="welcome"></div>
       </LoadingScreen>
     )
   }
 }
 
 ReactDOM.render(<Demo />, document.getElementById('root'))
+
+class Hello extends React.Component {
+  render() {
+    return <div>
+      <div style={{ textAlign: 'center' }}>
+      <div>Hello {this.props.toWhat}</div>
+      <h1>ברוכים הבאים למערכת ניהול גנים</h1>
+      <h2>אנא בחרו בפעולה הרצויה</h2>
+      <button id="hoursReport" style={{height:'100px', width:'100px'}}>דיווח שעות</button>
+    </div></div>;
+  }
+}
+
+// ReactDOM.render(
+//   <Hello toWhat="World" />,
+//   document.getElementById('welcome')
+// );
+
+// ReactDOM.render(
+//   <BrowserRouter>
+//     <App />
+//   </BrowserRouter>,
+//   document.getElementById("welcome")
+//  );
+
+ ReactDOM.render(
+    <HoursReport />,
+  document.getElementById("welcome")
+ );

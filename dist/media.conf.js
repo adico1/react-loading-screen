@@ -8,6 +8,12 @@ var _templateObject = _taggedTemplateLiteral(['\n    @media (max-width: ', 'em) 
 
 var _styledComponents = require('styled-components');
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var sizes = {
@@ -25,4 +31,23 @@ var media = Object.keys(sizes).reduce(function (acc, label) {
   return acc;
 }, {});
 
-exports.default = media;
+var _default = media;
+exports.default = _default;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(sizes, 'sizes', 'src/media.conf.js');
+  reactHotLoader.register(media, 'media', 'src/media.conf.js');
+  reactHotLoader.register(_default, 'default', 'src/media.conf.js');
+  leaveModule(module);
+})();
+
+;

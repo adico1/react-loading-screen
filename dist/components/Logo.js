@@ -28,6 +28,12 @@ var _mediaConf2 = _interopRequireDefault(_mediaConf);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var Image = _styledComponents2.default.img(_templateObject, function (props) {
@@ -48,6 +54,26 @@ function Logo(_ref) {
     src: src });
 }
 
-Logo.PropTypes = propTypes;
+Logo.propTypes = propTypes;
 
-exports.default = Logo;
+var _default = Logo;
+exports.default = _default;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(Image, 'Image', 'src/components/Logo.js');
+  reactHotLoader.register(propTypes, 'propTypes', 'src/components/Logo.js');
+  reactHotLoader.register(Logo, 'Logo', 'src/components/Logo.js');
+  reactHotLoader.register(_default, 'default', 'src/components/Logo.js');
+  leaveModule(module);
+})();
+
+;
