@@ -2,8 +2,8 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
-import Keyboard from "./../../react-material-ui-keyboard/index";
-import { numericKeyboard } from "./../../react-material-ui-keyboard/layouts";
+import Keyboard from "react-material-ui-keyboard";
+import { numericKeyboard } from "react-material-ui-keyboard/layouts";
 
 function corrector(value) {
   console.log(`correction ${value}`);
@@ -32,26 +32,12 @@ class Password extends React.Component {
     this.onChange = this.handleChange.bind(this);
     this.onRequestClose = this.handleRequestClose.bind(this);
     this.onInput = this.handleInput.bind(this);
-
-    this.url = "success.mp3";
-    this.audio = new Audio(this.url);
-    this.audio.preload = 'auto';
-    
-    this.togglePlay = this.togglePlay.bind(this);
   }
 
   togglePlay() {
     this.setState({ play: !this.state.play });
     console.log(this.audio);
-    const audioPromise = this.audio.play();
-    // if(audioPromise) {
-    //   audioPromise.then(function(data){
-    //     console.log('audio success');
-    //     console.dir(data);
-    //   }).catch(function(err) {
-    //     console.dir(err);
-    //   });
-    // }
+    this.audio.play();
   }
 
   canOpenKeyboard() {
@@ -73,7 +59,7 @@ class Password extends React.Component {
   handleRequestClose() {
     console.log("handleRequestClose");
     this.setState({ open: false });
-    this.togglePlay();
+    this.props.onChange(this.state.value);
   }
 
   handleInput(input) {

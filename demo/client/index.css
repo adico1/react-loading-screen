@@ -39,3 +39,8 @@ body {
 .page {
     padding: 0 24px;
 }
+
+.react-grid-Canvas {
+    overflow-y: hidden !important
+}
+

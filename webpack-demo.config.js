@@ -2,11 +2,12 @@ const path    = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
     'babel-polyfill',
-    './demo/index.js'
+    './demo/client/index.js'
   ],
   output: {
     path: path.join(__dirname, 'demo'),
@@ -19,9 +20,17 @@ module.exports = {
   ],
 
   module: {
-    loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel-loader'] },
-      { test: /\.css$/, loader: "style-loader!css-loader" },
-    ],
-  },
+    rules: [{
+      test: /\.js$/,
+      exclude: /node_modules/, 
+      use: 'babel-loader'
+    }, { 
+      test: /\.css$/, 
+      use: ["style-loader","css-loader"]
+    },
+    {
+      test: /\.mp3$/,
+      use: 'file-loader'
+    }]
+  }
 };

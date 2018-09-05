@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import App from "./components/App";
 import "./index.css";
-import LoadingScreen from '../src'
-import HoursReport from './HoursReport';
+import LoadingScreen from '../../src'
+import HoursReport from './components/hours-report/HoursReport';
 
 class Demo extends React.Component {
   constructor (props) {
