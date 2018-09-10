@@ -1,12 +1,17 @@
 const MongoClient = require('mongodb').MongoClient
 const { ConnectionString } = require('mongo-connection-string');
 
+// const connectionString = new ConnectionString({
+//   hosts: [{ host: 'localhost', port: 27017 }, { host: 'localhost', port: 27018 }],
+//   database: 'lab',
+//   options: {
+//     replicaSet: 'rs0'
+//   }
+// });
+
 const connectionString = new ConnectionString({
-  hosts: [{ host: 'localhost', port: 27017 }, { host: 'localhost', port: 27018 }],
-  database: 'lab',
-  options: {
-    replicaSet: 'rs0'
-  }
+  hosts: [{ host: 'localhost', port: 27017 }],
+  database: 'lab'
 });
 
 const DBS_URI = [
