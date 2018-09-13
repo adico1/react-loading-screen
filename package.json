@@ -4,8 +4,9 @@
   "description": "Loading screen example for react",
   "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node ./demo/server/server.js",
-    "start2": "node ./demo/server/server.js",
+    "start": "nodemon --exec babel-node --exitcrash ./demo/server/server.js",
+    "start2": "nodemon --exec babel-node ./demo/server/server.js",
+    "start3": "node ./demo/server/server.js",
     "build": "babel src -d dist",
     "lint": "eslint ./js"
   },

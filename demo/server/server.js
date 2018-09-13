@@ -58,5 +58,6 @@ persistManager.ready().then(function() {
   
 }).catch(function(err) {
   console.error(err);
+  process.exit(500);
 });
   
