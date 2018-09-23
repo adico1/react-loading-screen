@@ -9,10 +9,13 @@ const { ConnectionString } = require('mongo-connection-string');
 //   }
 // });
 
-const dbName = 'lab';
+const DB_HOST = process.env.DB_HOST || 'db';
+const DB_HOST_PORT = process.env.DB_HOST_PORT || 27017;
+const DB_NAME = process.env.DB_NAME || 'kindergarten';
+
 const connectionString = new ConnectionString({
-  hosts: [{ host: 'db', port: 27017 }],
-  database: dbName
+  hosts: [{ host: DB_HOST, port: DB_HOST_PORT }],
+  database: DB_NAME
 });
 
 const DBS_URI = [
@@ -78,7 +81,7 @@ class PersistantStorage {
       client = await MongoClient.connect(url, dbConnectProps);
   
       if(client) {
-        const db = client.db(dbName);
+        const db = client.db(DB_NAME);
         return dbInstance.wrapDb(db, url);  
       }
 

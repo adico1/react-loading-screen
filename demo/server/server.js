@@ -1,3 +1,12 @@
+let defaultPort = 3000;
+if (process.env.NODE_ENV === 'dev') {
+  console.log('env: dev');
+  require('dotenv').load();
+} else {
+  console.log('env: prod');
+  defaultPort = 80;
+}
+
 const webpack 			 = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
@@ -11,7 +20,7 @@ const cors = require('cors');
 
 const path 				 = require('path')
 
-const port   = process.env.PORT || 3000;
+const port   = process.env.PORT || defaultPort;
 const app 	 = express()
 const server = Server(app)
 

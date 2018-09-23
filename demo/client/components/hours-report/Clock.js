@@ -28,14 +28,20 @@ const inner_boxshadow_rgba = "3, 119, 255, .9";
 
 const mostinner_border_rgba = "3, 119, 225, 1";
 
+const windowsWidth = document.body.clientWidth;
+const windowHeight = document.body.clientHeight;
+
+console.log('windowsWidth:', windowsWidth);
+console.log('windowHeight:', windowHeight);
+
 const styles = theme => ({
   outer: {
     position: "relative",
     display: "inline-block",
     left: "50%",
-    marginLeft: -150,
-    height: 300,
-    width: 300,
+    marginLeft: -230,
+    height: 450,
+    width: 450,
     border: "1px solid rgba(" + rgba + ")",
     borderRadius: "50%",
     background:
@@ -70,11 +76,11 @@ const styles = theme => ({
     }
   },
   inner: {
-    height: 175,
-    width: 250,
+    height: 225,
+    width: 400,
     border: "1px solid rgba(" + rgba + ")",
     borderRadius: "50%",
-    marginTop: 50,
+    marginTop: 100,
     marginLeft: 25,
     marginRight: 25,
     background:
@@ -94,8 +100,8 @@ const styles = theme => ({
   },
   mostinner: {
     textAlign: "center",
-    height: 87,
-    width: 200,
+    height: 137,
+    width: 350,
     border: "1px solid rgba(" + mostinner_border_rgba + ")",
     borderRadius: 63,
     marginTop: 45,
@@ -114,27 +120,27 @@ const styles = theme => ({
   },
   time: {
     color: "white",
-    fontSize: 35,
+    fontSize: 60,
     position: "relative",
     display: "block",
-    marginTop: 23
+    marginTop: 0
   },
   date: {
     position: "relative",
     display: "block",
-    width: 120,
-    marginLeft: 16,
+    width: 200,
+    marginLeft: 40,
     color: "white",
-    fontSize: 12
+    fontSize: 22
   },
   amPm: {
     position: "relative",
     display: "block",
     width: 40,
-    marginLeft: 126,
-    marginTop: -15,
+    marginLeft: 240,
+    marginTop: -33,
     color: "white",
-    fontSize: 12
+    fontSize: 22
   },
   blink: {
     animation: "blinking .5s infinite"
@@ -144,7 +150,7 @@ const styles = theme => ({
 class Clock extends React.Component {
   state = {
     time: "00:00:00",
-    amPm: "בוקר"
+    amPm: "לפנה'צ"
   };
 
   // getInitialState() {
@@ -177,7 +183,7 @@ class Clock extends React.Component {
       s = addZero(d.getSeconds());
       t = `${h}:${m}:${s}`;
 
-      amPm = d.getHours() >= 12 ? 'אחה"צ' : "בוקר";
+      amPm = d.getHours() >= 12 ? 'אחה"צ' : 'לפנה"צ';
 
       this.setState({
         time: t,

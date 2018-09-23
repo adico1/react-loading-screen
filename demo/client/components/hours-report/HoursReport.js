@@ -19,6 +19,10 @@ import { KINDERGARTEN_ID_REQUIRED, EMPLOYEE_ID_REQUIRED, EMPLOYEE_CODE_REQUIRED,
 import HoursReportAudio from './Audio';
 
 const styles = theme => ({
+  gridLayout: {
+    padding: 0,
+    margin:0,
+  },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
   },
@@ -27,7 +31,8 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     textAlign: "right",
     flex: "0 50%",
-    width: "auto"
+    width: "auto",
+    fontWeight: "bold"
   },
   menu: {
   },
@@ -42,7 +47,8 @@ const styles = theme => ({
   },
   toggleButton: {
     height: 60,
-    width: 100
+    width: 100,
+    fontWeight: "bold"
   },
   inputs: {
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
@@ -62,7 +68,7 @@ class HoursReport extends React.Component {
       keyboardValue: "",
       name: "0",
       alignment: "left",
-      direction: "in",
+      direction: "",
       names: []
     };
 
@@ -202,7 +208,7 @@ class HoursReport extends React.Component {
     const { onChangeKeyboard } = this;
 
     return (
-      <GridLayout>
+      <GridLayout className={classes.gridLayout}>
         <Clock />
         <div className={classes.toggleContainer}>
           <ToggleButtonGroup

@@ -19,7 +19,8 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     textAlign: "right",
-    flexGrow: 1
+    flexGrow: 1,
+    fontWeight: "bold"
   }
 });
 
