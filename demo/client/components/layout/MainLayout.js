@@ -8,7 +8,28 @@ import JssProvider from "react-jss/lib/JssProvider";
 import { createGenerateClassName, jssPreset } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
-  direction: "rtl" // Both here and <body dir="rtl">
+  direction: "rtl", // Both here and <body dir="rtl">
+  typography: {
+    body1: {
+      letterSpacing: "0.4em"
+    },
+    caption: {
+      letterSpacing: "0.4em"
+    }
+  },
+  overrides: {
+    MuiFormLabel: {
+      root: {
+        fontSize: "24px"
+      }
+    },
+    MuiToggleButton: {
+      root: {
+        fontSize: "24px",
+        border: "1px solid #000"
+      }
+    }
+  }
 });
 
 // Configure JSS

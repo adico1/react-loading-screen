@@ -32,7 +32,8 @@ const styles = theme => ({
     textAlign: "right",
     flex: "0 50%",
     width: "auto",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: "18px !important"
   },
   menu: {
   },
