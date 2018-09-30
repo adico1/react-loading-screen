@@ -31,8 +31,8 @@ const createNewEntry = () => {
 
     return {
         year: now.getFullYear(),
-        month: now.getMonth(),
-        day: now.getDay(),
+        month: now.getMonth() + 1,
+        day: now.getDate(),
         time: now.getHours() + ':' + now.getMinutes()
     };
 };
@@ -60,19 +60,25 @@ class HoursReportManager {
         const employee = createEmployee(employeeId, employeeCode);
         const entry = createNewEntry();
         
+        console.log('entry:');
+        console.dir(entry);
+
         return await hoursReportRepository
                 .addEntry(kindergarten, employee, entry)
     }
 
-    async addExit(employee, date) {
+    async addExit(kindergartenId, employeeId, employeeCode) {
 
-      assert(title, 'Title is required');
-      assert(content, 'Content is required');
-      
-      const entry = createNewEntry(date);
+        assert(kindergartenId, 'Kindergarten Id is required');
+        assert(employeeId, 'Employee Id is required');
+        assert(employeeCode, 'Employee Code is required');
+        
+        const kindergarten = createKindergarten(kindergartenId);
+        const employee = createEmployee(employeeId, employeeCode);
+        const entry = createNewEntry();
 
       return await hoursReportRepository
-              .addExit(employee, entry)
+              .addExit(kindergarten, employee, entry)
     }
 
     async findHoursReportByMonth(kindergartenid, employeeid, monthofyear) {

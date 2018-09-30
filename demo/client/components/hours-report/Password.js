@@ -28,11 +28,20 @@ class Password extends React.Component {
   constructor(props) {
     super(props);
 
+    this.input = null;
+
     this.state = { open: false, value: " ", play: false };
     this.onFocus = this.handleFocus.bind(this);
     this.onChange = this.handleChange.bind(this);
     this.onRequestClose = this.handleRequestClose.bind(this);
     this.onInput = this.handleInput.bind(this);
+  }
+
+  resetValue() {
+    if(this.state.value === ' ' ) return;
+
+    this.setState({ value: ' ' });
+    //this.props.onChange('');
   }
 
   togglePlay() {
@@ -75,10 +84,12 @@ class Password extends React.Component {
   componentDidMount() {
     //setTimeout(() => this.setState({ value: "2" }), 1000);
     console.log("componentDidMount");
+    this.props.onRef(this)
   }
 
   componentWillUnmount() {
     console.log("componentWillUnmount");
+    this.props.onRef(undefined)
   }
 
   render() {
@@ -115,7 +126,7 @@ class Password extends React.Component {
         keyboardKeyHeight={50}
         keyboardKeyWidth={100}
         keyboardKeySymbolSize={36}
-        disableEffects={true}
+        disableEffects={true} 
       />
       </div>
     );

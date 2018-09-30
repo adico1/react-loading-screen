@@ -15,20 +15,12 @@ const collection = 'hours-report';
 
 const db = DbConnection.get();
 
-import { NOT_EMPLOYEE, EMPLOYEE_CODE_INVALID, ENTRY_SUCCESS } from '../shared/hours-report-consts';
+import { NOT_EMPLOYEE, EMPLOYEE_CODE_INVALID, ENTRY_SUCCESS, DOUBLE_ENTRY, DOUBLE_EXIT } from '../shared/hours-report-consts';
 
 const filters = {
-    month: (employeeid, year, month) => {
-        return { 
-            'employeeId': new ObjectID(employeeid), 
-            'year': year,
-            'month': month
-        };
-    },
-    entry: (employee, entry) => {
+    month: (employee, entry) => {
         return { 
             'employeeId': new ObjectID(employee.id), 
-            'code': employee.code,
             'year': entry.year,
             'month': entry.month
         };
@@ -48,18 +40,47 @@ class HoursReportRepository {
             return EMPLOYEE_CODE_INVALID;
         }
     
-        const key = 'entries.' + ( entry.day - 1 ) + direction;
+        // cases:
+        // {}
+        // { "entries" : {  } }
+        // { "entries" : { "18" : { "in" : "2:48" } } }
+        // { "entries" : { "18" : { "out" : "2:52" } } }
+        // { "entries" : { "18" : { "in" : "2:48", "out" : "2:52" } } }
+        const currentMonthEmployeeHoursReport = 
+            await this.findTodaysHoursReportEntries(employee, entry);
+
+            console.log('entry.day', entry.day);
+        let currDay = entry.day;
+        let keyField = 'entries.' + currDay;
+        let directionField;
 
         if(direction === 'IN') {
-            key + '.in';
+            directionField = 'in';
         } else {
-            key + '.out';
+            directionField = 'out';
         }
+        keyField = keyField + '.' + directionField;
         
+        const tmpInsertDocument = {};
+        tmpInsertDocument[keyField] = entry.time;
+
+        console.log('currentMonthEmployeeHoursReport:');
+        console.dir(currentMonthEmployeeHoursReport);
+
+        if(currentMonthEmployeeHoursReport && 'entries' in currentMonthEmployeeHoursReport && currDay in currentMonthEmployeeHoursReport.entries) {
+            if(directionField in currentMonthEmployeeHoursReport.entries[currDay]) {
+                if(directionField === 'in') {
+                    return DOUBLE_ENTRY;
+                } else {
+                    return DOUBLE_EXIT;
+                }
+            }
+        }
+
         const r = await db.collection(collection)
             .updateOne(
-                filters.entry(employee, entry),
-                {$set:{ key: entry.time}},
+                filters.month(employee, entry),
+                {$set:tmpInsertDocument},
                 {upsert: true}
             )
 
@@ -78,6 +99,15 @@ class HoursReportRepository {
 
     async addExit(kindergarten, employee, entry) {
         return await this.addStrategy(kindergarten, employee, entry, 'OUT')
+    }
+
+    async findTodaysHoursReportEntries(kindergarten, entry) {
+        const projectionEntryKey = 'entries.' + entry.day;
+        const projection = {};
+        projection[projectionEntryKey] = 1;
+
+        return await db.collection(collection)
+            .findOne(filters.month(kindergarten, entry), projection);
     }
 
     async findHoursReportByMonth(kindergartenid, employeeid, monthofyear) {

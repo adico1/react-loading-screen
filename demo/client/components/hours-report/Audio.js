@@ -4,8 +4,10 @@ import employeeCodeInvalid from '../../../server/public/employee-code-invalid.mp
 import unexpectedError from '../../../server/public/unexpected-error.mp3';
 import doubleEntry from '../../../server/public/double-entry.mp3';
 import doubleExit from '../../../server/public/double-exit.mp3';
+import missingInput from '../../../server/public/missing-input.mp3';
 
 const audios = {
+    'missingInput': new Audio(missingInput),
     'entryRegistered': new Audio(entryRegistered),
     'exitRegistered': new Audio(exitRegistered),
     'employeeCodeInvalid': new Audio(employeeCodeInvalid),
@@ -17,6 +19,8 @@ const audios = {
 let currentlyPlaying = null;
 
 const play = (name) => {
+    console.log('playing:', name);
+
     if (currentlyPlaying) {
         audios[currentlyPlaying].pause();
     }

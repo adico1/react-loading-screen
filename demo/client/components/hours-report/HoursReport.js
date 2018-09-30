@@ -66,12 +66,14 @@ class HoursReport extends React.Component {
       kindergartenId: '5b7735edf3796162842507c1',
       open: false,
       value: "",
-      keyboardValue: "",
+      keyboardValue: " ",
       name: "0",
       alignment: "left",
       direction: "",
       names: []
     };
+
+    this.loopRound = 0;
 
     this.togglePlay = this.togglePlay.bind(this);
     this.onInput = this.handleInput.bind(this);
@@ -139,11 +141,30 @@ class HoursReport extends React.Component {
   }
 
   handleChangeKeyboard(value) {
+    this.loopRound += 1;
+    if(this.loopRound > 4) return;
+
     console.log('handleChangeKeyboard', value);
     
     value = value.trim();
+    if(value === '') value = ' ';
+
+    console.log('value', '{' + value + '}');
+    console.log('this.state.keyboardValue', '{' + this.state.keyboardValue + '}');
+    if( value === this.state.keyboardValue ) return;
 
     this.setState({ keyboardValue: value });
+    console.log('this.state.direction:', this.state.direction);
+    console.log('this.state.name:', this.state.name);
+
+    if(value === ' ') return;
+
+    if(this.state.direction === '' || this.state.name === '0' ) {
+      this.togglePlay('missingInput');
+      this.clearPassword();
+      return;
+    }
+
     if(this.state.direction === 'in') {
       this.signEntry(value);
     } else {
@@ -162,6 +183,7 @@ class HoursReport extends React.Component {
       .then(res => {
         console.log('res:', res);
         this.togglePlay('entryRegistered');
+        this.clearForm();
       })
       .catch(err => {
         console.log('err:', err);
@@ -172,7 +194,8 @@ class HoursReport extends React.Component {
   signExit(employeeCode) {
     HoursReportService.signExit(this.state.kindergartenId,this.state.name,employeeCode)
       .then(() => {
-        this.togglePlayExit();
+        this.togglePlay('exitRegistered');
+        this.clearForm();
       })
       .catch((err) => {
         console.log('err:', err)
@@ -200,8 +223,22 @@ class HoursReport extends React.Component {
       default:
         this.togglePlay('unexpectedError');
     }
+
+    this.clearPassword();
   }
 
+  clearForm() {
+    this.setState({ name: 0 });
+    this.setState({ direction: '' });
+    this.clearPassword();
+  }
+
+  clearPassword() {
+    this.setState({ keyboardValue: '' });
+    this.input1.resetValue();
+  }
+
+  
   render() {
     const { classes } = this.props;
     const { direction } = this.state;
@@ -243,7 +280,7 @@ class HoursReport extends React.Component {
               </MenuItem>
             ))}
           </TextField>
-          <Password className={classes.textField} onChange={onChangeKeyboard} />
+          <Password onRef={input1 => this.input1 = input1} className={classes.textField} onChange={onChangeKeyboard} />
         </div>
       </GridLayout>              
     );

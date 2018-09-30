@@ -20,8 +20,8 @@ const filters = {
     },
     code: (employee) => {
         return {
-            'employeeId': new ObjectID(employee.id), 
-            'code': employee.code,
+            '_id': new ObjectID(employee.id), 
+            'hrcore': employee.code,
         }
     }
 };
@@ -51,10 +51,14 @@ class EmployeeRepository {
     }
 
     async isEmployeeCodeValid(employee) {
+        console.log('filters code:');
+        console.dir(filters.code(employee));
       const result = await db.collection(collection)
         .find(filters.code(employee))
         .toArray();
     
+        console.log('isEmployeeCodeValid result:');
+        console.dir(result);
       return result.length > 0
     }
 }

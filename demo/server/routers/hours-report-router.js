@@ -10,7 +10,7 @@ const HoursReportManager = require('../services/hours-report-manager');
 const hoursReportManager = new HoursReportManager();
 
 import { KINDERGARTEN_ID_REQUIRED, EMPLOYEE_ID_REQUIRED, EMPLOYEE_CODE_REQUIRED, 
-  NOT_EMPLOYEE, EMPLOYEE_CODE_INVALID, ENTRY_SUCCESS, EXIT_SUCCESS, UNEXPECTED_ERROR } from '../shared/hours-report-consts';
+  NOT_EMPLOYEE, EMPLOYEE_CODE_INVALID, ENTRY_SUCCESS, EXIT_SUCCESS, UNEXPECTED_ERROR, DOUBLE_EXIT, DOUBLE_ENTRY } from '../shared/hours-report-consts';
 
 const reportStrategy = (request, response, direction) => {
 
@@ -44,6 +44,12 @@ const reportStrategy = (request, response, direction) => {
           break;
         case EMPLOYEE_CODE_INVALID:
           response.status(400).send(EMPLOYEE_CODE_INVALID) 
+          break;
+        case DOUBLE_ENTRY:
+          response.status(400).send(DOUBLE_ENTRY) 
+          break;
+        case DOUBLE_EXIT:
+          response.status(400).send(DOUBLE_EXIT) 
           break;
         case ENTRY_SUCCESS:
           response.status(200).send(message) 
