@@ -27,7 +27,7 @@ class GridLayout extends React.Component {
     return (
       <MainLayout>
         <Grid className={classes.mainGrid} container spacing={16}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <div className={classes.formContainer}>
               {this.props.children}
             </div>

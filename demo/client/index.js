@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom'
 import App from "./components/App";
 import "./index.css";
 import LoadingScreen from '../../src'
-import HoursReport from './components/hours-report/HoursReport';
+//import HoursReport from './components/hours-report/HoursReport';
+import KidsPresence from './components/kids-presence/KidsPresence';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { BrowserRouter, Route, IndexRoute, Switch } from 'react-router-dom';
@@ -53,7 +54,7 @@ ReactDOM.render(
   <div>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={HoursReport} />
+        <Route exact path="/" component={KidsPresence} />
         <Route exact path="/admin" component={HoursReportReport} />
       </Switch>
     </BrowserRouter>

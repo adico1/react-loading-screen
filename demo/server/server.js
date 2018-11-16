@@ -42,6 +42,8 @@ persistManager.ready().then(function() {
   const hoursReportRouter = require('./routers/hours-report-router');
   const employeesRouter = require('./routers/employees-router');
   const kindergartenRouter = require('./routers/kindergarten-router');
+  const kidsRouter = require('./routers/kids-router');
+  const kidsPresenceReportRouter = require('./routers/kids-presence-report-router');
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
@@ -52,6 +54,8 @@ persistManager.ready().then(function() {
   app.use('/api', kindergartenRouter());
   app.use('/api', employeesRouter());
   app.use('/api', hoursReportRouter());
+  app.use('/api', kidsRouter());
+  app.use('/api', kidsPresenceReportRouter());
 
   app.get("*", function(req, res, next) {
     res.sendFile(path.resolve(__dirname, '../client/index.html'))
