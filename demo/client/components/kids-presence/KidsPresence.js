@@ -103,46 +103,10 @@ class KidsPresence extends React.Component {
       });
   }
 
-  // handleChange(value) {
-  //   console.log('handleChange:');
-  //   console.dir(value)
-
-  //   value = value.trim();
-  //   if(value === '') value = ' ';
-
-  //   console.log('value', '{' + value + '}');
-  //   console.log('this.state.keyboardValue', '{' + this.state.keyboardValue + '}');
-  //   if( value === this.state.keyboardValue ) return;
-
-  //   this.setState({ keyboardValue: value });
-  //   console.log('this.state.direction:', this.state.direction);
-  //   console.log('this.state.name:', this.state.name);
-
-  //   if(value === ' ') return;
-
-  //   if(this.state.direction === '' || this.state.name === '0' ) {
-  //     this.togglePlay('missingInput');
-  //     this.clearPassword();
-  //     return;
-  //   }
-
-  //   if(this.state.direction === 'in') {
-  //     this.signEntry(value);
-  //   } else {
-  //     this.signExit(value);
-  //   }
-  // }
-
-  // handleRequestClose() {
-  //   this.setState({ open: false });
-  // }
-
   signEntry(kidid) {
     KidsPresenceService.signEntry(this.state.kindergartenId,kidid)
       .then(res => {
         console.log('res:', res);
-        //this.togglePlay('entryRegistered');
-        //this.clearForm();
       })
       .catch(err => {
         console.log('err:', err);
@@ -153,8 +117,6 @@ class KidsPresence extends React.Component {
   signExit(kidid) {
     KidsPresenceService.signExit(this.state.kindergartenId,kidid)
       .then(() => {
-        //this.togglePlay('exitRegistered');
-        //this.clearForm();
       })
       .catch((err) => {
         console.log('err:', err)
@@ -166,8 +128,6 @@ class KidsPresence extends React.Component {
     KidsPresenceService.removeEntry(this.state.kindergartenId,kidid)
       .then(res => {
         console.log('res:', res);
-        //this.togglePlay('entryRegistered');
-        //this.clearForm();
       })
       .catch(err => {
         console.log('err:', err);
@@ -178,8 +138,6 @@ class KidsPresence extends React.Component {
   removeExit(kidid) {
     KidsPresenceService.removeExit(this.state.kindergartenId,kidid)
       .then(() => {
-        //this.togglePlay('exitRegistered');
-        //this.clearForm();
       })
       .catch((err) => {
         console.log('err:', err)
@@ -190,21 +148,16 @@ class KidsPresence extends React.Component {
   signErrorHandler(err) {
     switch(err.code) {
       case DOUBLE_ENTRY.code:
-        //this.togglePlay('doubleEntry');
         break;
       case DOUBLE_EXIT.code:
-        //this.togglePlay('doubleExit');
         break;
       case KINDERGARTEN_ID_REQUIRED.code:
       case KID_ID_REQUIRED.code: 
       case NOT_KID.code:
-        //this.togglePlay('unexpectedError');
         break;
       default:
         //this.togglePlay('unexpectedError');
     }
-
-    //this.clearPassword();
   }
   
   render() {
@@ -236,7 +189,7 @@ class KidsPresence extends React.Component {
     return (
       <GridLayout className={classes.gridLayout}>
         <div class="header">
-          <h1>נוכחות ילדים {event.toLocaleDateString()}</h1>
+          <h1>נוכחות ילדים {event.toLocaleDateString('he-IL')}</h1>
         </div>
 
         <div class="row">

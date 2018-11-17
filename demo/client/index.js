@@ -3,16 +3,7 @@ import ReactDOM from 'react-dom'
 import App from "./components/App";
 import "./index.css";
 import LoadingScreen from '../../src'
-//import HoursReport from './components/hours-report/HoursReport';
-import KidsPresence from './components/kids-presence/KidsPresence';
-import CssBaseline from '@material-ui/core/CssBaseline';
-
-import { BrowserRouter, Route, IndexRoute, Switch } from 'react-router-dom';
-
-import AdminLayout from './components/layout/AdminLayout';
-import MainLayout from './components/layout/MainLayout';
-import LoginPg from './components/login/LoginPg';
-import HoursReportReport from './components/hours-report/HoursReportReport';
+import { BrowserRouter } from 'react-router-dom';
 
 class Demo extends React.Component {
   constructor (props) {
@@ -51,13 +42,8 @@ class Demo extends React.Component {
 ReactDOM.render(<Demo />, document.getElementById('root'))
 
 ReactDOM.render(
-  <div>
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={KidsPresence} />
-        <Route exact path="/admin" component={HoursReportReport} />
-      </Switch>
-    </BrowserRouter>
-  </div>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
   document.getElementById("welcome")
  );
