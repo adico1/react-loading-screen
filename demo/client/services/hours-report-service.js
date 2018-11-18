@@ -39,11 +39,15 @@ const signExit = (id, employeeid, employeecode) => {
         axios
             .post(`${baseApiUrl}/kindergarten/${id}/employee/${employeeid}/${employeecode}/hours-report/exit`)
             .then(response => {
+                console.log('service->signExit response:')
+                console.dir(response)
                 resolve(response.data);
                 return;
             })
             .catch(error => {
-                reject(error.message);
+                console.log('service->signExit error:')
+                console.dir(error)
+                reject(error.response.data);
                 return;
             });
     });

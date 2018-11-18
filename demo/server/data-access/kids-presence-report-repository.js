@@ -130,8 +130,17 @@ class KidsPresenceReportRepository {
         return EXIT_SUCCESS;
     }
     
+    calcRegistrarYear(entry) {
+        if(entry.month >= 7) {
+            return entry.year + 1;
+        }
+
+        return entry.year;
+    }
+
     async addStrategy(kindergarten, kid, entry, direction) {
-        const isKid = await kidsRepository.isKid(kindergarten.id, kid.id, entry.year);
+        const registrarYear = this.calcRegistrarYear(entry);
+        const isKid = await kidsRepository.isKid(kindergarten.id, kid.id, registrarYear);
         if(!isKid) {
             return NOT_KID_ID;
         }
@@ -244,8 +253,17 @@ class KidsPresenceReportRepository {
         return result;
     }
 
+    calcRegistrarYear(entry) {
+        if(entry.month >= 7) {
+            return entry.year + 1;
+        }
+
+        return entry.year;
+    }
+
     async findKidsPresenceReportByDate(kindergarten, entry) {
-        const kids = await kidsRepository.list(kindergarten, entry.year);
+        const registrarYear = this.calcRegistrarYear(entry);
+        const kids = await kidsRepository.list(kindergarten, registrarYear);
 
         const report = await db.collection(collection)
             .findOne(filters.presence(kindergarten, entry), projections.presence());

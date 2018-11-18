@@ -18,6 +18,11 @@ import { KINDERGARTEN_ID_REQUIRED, EMPLOYEE_ID_REQUIRED, EMPLOYEE_CODE_REQUIRED,
 
 import HoursReportAudio from './Audio';
 
+const UNEXPECTED_ERROR_MESSAGE = 'קרתה שגיאה, יש לנסות שוב או לפנות למנהל המערכת!';
+const DOUBLE_ENTRY_MESSAGE = 'החתמה כפולה!';
+const EMPLOYEE_CODE_INVALID_MESSAGE = 'קוד עובד שגוי, יש להזין שנית';
+const INPUT_MISSING_ERROR_MESSAGE = 'חסרים נתונים, נא לבחור כניסה או יציאה, שם וקוד עובד ונלנסות שנית';
+
 const styles = theme => ({
   gridLayout: {
     padding: 0,
@@ -56,6 +61,18 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "flex-start",
     margin: `${theme.spacing.unit}px 0`
+  },
+  fixBottom: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "25px",
+    textAlign: "center",
+    backgroundColor: "#000000",
+    color: "#FF0000",
+    fontWeight: "bold",
+    fontSize: "18px !important",
   }
 });
 
@@ -70,9 +87,12 @@ class HoursReport extends React.Component {
       name: "0",
       alignment: "left",
       direction: "",
-      names: []
+      names: [],
+      errorMessage: "",
+      //requireRefresh: false,
     };
 
+    this.timer = null;
     this.loopRound = 0;
 
     this.togglePlay = this.togglePlay.bind(this);
@@ -81,6 +101,21 @@ class HoursReport extends React.Component {
     this.onChange = this.handleChange.bind(this);
     this.onChangeKeyboard = this.handleChangeKeyboard.bind(this);
     this.onRequestClose = this.handleRequestClose.bind(this);
+  }
+
+  startTimer() {
+    if(this.timer) {
+      this.endTimer()
+    }
+
+    this.timer = setTimeout(()=> {
+      this.clearForm();
+    }, 60000);
+  }
+
+  endTimer() {
+    clearInterval(this.timer);
+    this.timer = null;
   }
 
   togglePlay(name) {
@@ -122,11 +157,19 @@ class HoursReport extends React.Component {
     this.setState({ value: input });
   }
 
-  handleDirection = direction => this.setState({ direction });
+  handleDirection = direction => {
+    this.startTimer();
+    //this.setState({requireRefresh: new Date()})
+    this.setState({errorMessage: ''});
+    this.setState({ direction });
+  }
 
   handleAlignment = alignment => this.setState({ alignment });
 
   handleChange = event => {
+    this.startTimer();
+    //this.setState({requireRefresh: new Date()})
+    this.setState({errorMessage: ''});
     this.setState({ name: event.target.value });
   };
 
@@ -136,13 +179,18 @@ class HoursReport extends React.Component {
 
   handleFocus(event) {
     if (this.canOpenKeyboard()) {
+      this.setState({errorMessage: ''});
       this.setState({ open: true });
     }
   }
 
   handleChangeKeyboard(value) {
+    console.log('this.loopRound', this.loopRound);
+
     this.loopRound += 1;
     if(this.loopRound > 4) return;
+
+    this.setState({errorMessage: ''});
 
     console.log('handleChangeKeyboard', value);
     
@@ -153,13 +201,19 @@ class HoursReport extends React.Component {
     console.log('this.state.keyboardValue', '{' + this.state.keyboardValue + '}');
     if( value === this.state.keyboardValue ) return;
 
+    this.startTimer();
+    //this.setState({requireRefresh: new Date()})
+
     this.setState({ keyboardValue: value });
     console.log('this.state.direction:', this.state.direction);
     console.log('this.state.name:', this.state.name);
 
     if(value === ' ') return;
 
+    this.loopRound = 0;
+
     if(this.state.direction === '' || this.state.name === '0' ) {
+      this.setState({errorMessage: INPUT_MISSING_ERROR_MESSAGE});
       this.togglePlay('missingInput');
       this.clearPassword();
       return;
@@ -206,21 +260,26 @@ class HoursReport extends React.Component {
   signErrorHandler(err) {
     switch(err.code) {
       case EMPLOYEE_CODE_INVALID.code:
+        this.setState({errorMessage: EMPLOYEE_CODE_INVALID_MESSAGE});
         this.togglePlay('employeeCodeInvalid');
         break;
       case DOUBLE_ENTRY.code:
+        this.setState({errorMessage: DOUBLE_ENTRY_MESSAGE});
         this.togglePlay('doubleEntry');
         break;
       case DOUBLE_EXIT.code:
+        this.setState({errorMessage: DOUBLE_ENTRY_MESSAGE});
         this.togglePlay('doubleExit');
         break;
       case KINDERGARTEN_ID_REQUIRED.code:
       case EMPLOYEE_ID_REQUIRED.code: 
       case EMPLOYEE_CODE_REQUIRED.code:
       case NOT_EMPLOYEE.code:
+        this.setState({errorMessage: UNEXPECTED_ERROR_MESSAGE});
         this.togglePlay('unexpectedError');
         break;
       default:
+        this.setState({errorMessage: UNEXPECTED_ERROR_MESSAGE});
         this.togglePlay('unexpectedError');
     }
 
@@ -228,6 +287,8 @@ class HoursReport extends React.Component {
   }
 
   clearForm() {
+    this.endTimer();
+    this.setState({errorMessage: ''});
     this.setState({ name: 0 });
     this.setState({ direction: '' });
     this.clearPassword();
@@ -282,6 +343,7 @@ class HoursReport extends React.Component {
           </TextField>
           <Password onRef={input1 => this.input1 = input1} className={classes.textField} onChange={onChangeKeyboard} />
         </div>
+        <div className={classes.fixBottom} style={{display:this.state.errorMessage?'block':'none'}}>{this.state.errorMessage}</div>
       </GridLayout>              
     );
   }

@@ -9,7 +9,8 @@ const styles = theme => ({
     flexWrap: "wrap"
   },
   checkbox: {
-    height: "auto"
+    height: "auto",
+    float: "left"
   }
 });
 
@@ -42,6 +43,13 @@ class KidPresence extends React.Component {
     console.log('this.state.in',this.state.in);
     console.log('name',name);
 
+    if(name === 'out') {
+      if(!this.state.in) {
+        console.log('aborting 0');
+        return;
+      }
+    }
+
     if(name === 'in') {
       if(this.state.out) {
         console.log('aborting 1');
@@ -64,9 +72,13 @@ class KidPresence extends React.Component {
         testTime = false;
       }
     }
-    if(name === 'out' && this.state.out && this.state.out < testTime -  quarterOfHour) {
-      console.log('aborting 2');
-      return;
+    if(name === 'out' && this.state.out ) {
+      if(this.state.out < testTime -  quarterOfHour) {
+        console.log('aborting 3');
+        return;
+      } else {
+        testTime = false;
+      }
     }
 
     this.setState({ [name]: testTime });

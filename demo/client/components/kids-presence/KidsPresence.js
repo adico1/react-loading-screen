@@ -103,6 +103,21 @@ class KidsPresence extends React.Component {
       });
   }
 
+  redirectBackToHourReport() {
+    this.cancelTimer()
+
+    this.timer = setTimeout(() => {
+      location.href = '/';
+    }, 1000 * 60 * 1);
+  }
+
+  cancelTimer() {
+    if(this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+
   signEntry(kidid) {
     KidsPresenceService.signEntry(this.state.kindergartenId,kidid)
       .then(res => {
@@ -171,6 +186,8 @@ class KidsPresence extends React.Component {
       console.dir(objState);
       console.log('isEntry', isEntry);
 
+      this.redirectBackToHourReport();
+
       if(direction === 'in' && isEntry ) {
         this.signEntry(objState.kidId)
       } else if(direction === 'out' && isEntry ) {
@@ -186,6 +203,8 @@ class KidsPresence extends React.Component {
 
     const event = new Date();
 
+    this.redirectBackToHourReport();
+
     return (
       <GridLayout className={classes.gridLayout}>
         <div class="header">
@@ -194,16 +213,16 @@ class KidsPresence extends React.Component {
 
         <div class="row">
           <div class="col-3 menu">
-            שם, כניסה , יציאה
+            כניסה , יציאה, שם
           </div>
           <div class="col-3 menu">
-            שם, כניסה , יציאה
+            כניסה , יציאה, שם
           </div>
           <div class="col-3 menu">
-            שם, כניסה , יציאה
+            כניסה , יציאה, שם
           </div>
           <div class="col-3 menu">
-            שם, כניסה , יציאה
+            כניסה , יציאה, שם
           </div>
           {this.state.arr.map((el, index) => 
             <div class="col-3 menu" key={index}>
